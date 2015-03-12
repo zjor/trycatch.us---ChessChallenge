@@ -3,6 +3,7 @@ package com.royz.cc;
 import com.royz.cc.pieces.Knight;
 import com.royz.cc.pieces.Piece;
 import com.royz.cc.pieces.Rook;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -138,7 +139,7 @@ public class Solver {
                 callback.onSolved(state, rows, cols);
             }
 
-            while (!backtrack() && !isExhausted());
+            while (!backtrack() && !isExhausted()) ;
         }
         callback.onFinished();
     }
@@ -163,25 +164,45 @@ public class Solver {
         void onFinished();
     }
 
-    public static class SolutionCallbackImpl implements SolutionCallback {
+    public static class SilentSolutionCallbackImpl implements SolutionCallback {
 
+        @Getter
         private long time;
+
+        @Getter
         private long count;
 
-        public SolutionCallbackImpl() {
+        {
             time = System.currentTimeMillis();
         }
 
         @Override
         public void onSolved(List<Pair<Piece, Position>> solution, int rows, int cols) {
             count++;
+        }
+
+        @Override
+        public void onFinished() {
+            time = System.currentTimeMillis() - time;
+        }
+    }
+
+
+    public static class SolutionCallbackImpl extends SilentSolutionCallbackImpl {
+
+
+        @Override
+        public void onSolved(List<Pair<Piece, Position>> solution, int rows, int cols) {
+            super.onSolved(solution, rows, cols);
+
             printSolution(solution, rows, cols);
         }
 
         @Override
         public void onFinished() {
-            System.out.println("Number of configurations: " + count);
-            System.out.println("Elapsed time: " + (System.currentTimeMillis() - time) + "ms");
+            super.onFinished();
+            System.out.println("Number of configurations: " + getCount());
+            System.out.println("Elapsed time: " + getTime() + "ms");
         }
 
         private void printSolution(List<Pair<Piece, Position>> solution, int rows, int cols) {
@@ -191,7 +212,7 @@ public class Solver {
                     board[i][j] = '.';
                 }
             }
-            for (Pair<Piece, Position> p: solution) {
+            for (Pair<Piece, Position> p : solution) {
                 board[p.getB().getRow() - 1][p.getB().getCol() - 1] = p.getA().toString().charAt(0);
             }
 

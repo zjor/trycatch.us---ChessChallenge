@@ -64,6 +64,35 @@ public class PiecesTest {
     }
 
 
+    @Test
+    public void queenShouldOccupyCenter() {
+        Queen q = new Queen();
+        q.occupyCells(cells, 4, 4);
+        printCells(cells);
+    }
+
+    @Test
+    public void queenShouldOccupyCorner() {
+        Queen q = new Queen();
+        q.occupyCells(cells, 1, 1);
+        printCells(cells);
+    }
+
+    @Test
+    public void bishopShouldOccupyCenter() {
+        Bishop bishop = new Bishop();
+        bishop.occupyCells(cells, 4, 4);
+        printCells(cells);
+    }
+
+    @Test
+    public void bishopShouldOccupyCorner() {
+        Bishop bishop = new Bishop();
+        bishop.occupyCells(cells, 1, 1);
+        printCells(cells);
+    }
+
+
     private void printCells(int[][] cells) {
         StringBuilder line = new StringBuilder();
         for (int i = 1; i < cells.length - 1; i++) {
