@@ -35,4 +35,9 @@ public class Bishop extends Piece {
         cells[row][col] = 1;
         return noThreat;
     }
+
+    @Override
+    public String toString() {
+        return "B";
+    }
 }

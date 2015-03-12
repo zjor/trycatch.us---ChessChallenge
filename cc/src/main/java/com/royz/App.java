@@ -29,7 +29,7 @@ public class App {
         List<Piece> pieces = Arrays.asList(new King(), new King(), new Queen(), new Queen(), new Bishop(), new Bishop(), new Knight());
         Solver solver = new Solver(pieces, 7, 7);
 
-        Solver.SilentSolutionCallbackImpl callback = new Solver.SilentSolutionCallbackImpl();
+        Solver.SolutionCallbackImpl callback = new Solver.SolutionCallbackImpl();
         solver.solve(callback);
         System.out.println("Configurations count: " + callback.getCount());
         System.out.println("Elapsed time: " + callback.getTime() + "ms");
