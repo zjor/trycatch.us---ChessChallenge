@@ -49,6 +49,21 @@ public class PiecesTest {
     }
 
 
+    @Test
+    public void knightShouldOccupyCenter() {
+        Knight k = new Knight();
+        k.occupyCells(cells, 4, 4);
+        printCells(cells);
+    }
+
+    @Test
+    public void knightShouldOccupyCorner() {
+        Knight k = new Knight();
+        k.occupyCells(cells, 7, 7);
+        printCells(cells);
+    }
+
+
     private void printCells(int[][] cells) {
         StringBuilder line = new StringBuilder();
         for (int i = 1; i < cells.length - 1; i++) {

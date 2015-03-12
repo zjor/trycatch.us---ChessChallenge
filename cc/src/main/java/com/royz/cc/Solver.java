@@ -1,6 +1,6 @@
 package com.royz.cc;
 
-import com.royz.cc.pieces.King;
+import com.royz.cc.pieces.Knight;
 import com.royz.cc.pieces.Piece;
 import com.royz.cc.pieces.Rook;
 
@@ -135,7 +135,7 @@ public class Solver {
         while (!isExhausted()) {
             while (evolve()) ;
             if (isCompleteState()) {
-                callback.onSolved(state);
+                callback.onSolved(state, rows, cols);
             }
 
             while (!backtrack() && !isExhausted());
@@ -147,36 +147,35 @@ public class Solver {
     public static void main(String[] args) {
         List<Piece> pieces = new LinkedList<>();
         pieces.add(new Rook());
-        pieces.add(new King());
-        pieces.add(new King());
-        Solver solver = new Solver(pieces, 3, 3);
-        solver.solve(new SolutionCallbackImpl(3, 3));
+        pieces.add(new Rook());
+        pieces.add(new Knight());
+        pieces.add(new Knight());
+        pieces.add(new Knight());
+        pieces.add(new Knight());
+        Solver solver = new Solver(pieces, 4, 4);
+        solver.solve(new SolutionCallbackImpl());
     }
 
     public static interface SolutionCallback {
 
-        void onSolved(List<Pair<Piece, Position>> solution);
+        void onSolved(List<Pair<Piece, Position>> solution, int rows, int cols);
 
         void onFinished();
     }
 
     public static class SolutionCallbackImpl implements SolutionCallback {
 
-        private int rows, cols;
-
         private long time;
         private long count;
 
-        public SolutionCallbackImpl(int rows, int cols) {
-            this.rows = rows;
-            this.cols = cols;
+        public SolutionCallbackImpl() {
             time = System.currentTimeMillis();
         }
 
         @Override
-        public void onSolved(List<Pair<Piece, Position>> solution) {
+        public void onSolved(List<Pair<Piece, Position>> solution, int rows, int cols) {
             count++;
-            printSolution(solution);
+            printSolution(solution, rows, cols);
         }
 
         @Override
@@ -185,7 +184,7 @@ public class Solver {
             System.out.println("Elapsed time: " + (System.currentTimeMillis() - time) + "ms");
         }
 
-        private void printSolution(List<Pair<Piece, Position>> solution) {
+        private void printSolution(List<Pair<Piece, Position>> solution, int rows, int cols) {
             char[][] board = new char[rows][cols];
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
