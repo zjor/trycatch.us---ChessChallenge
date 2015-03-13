@@ -27,7 +27,7 @@ public class Solver {
         List<Pair<Piece, Position>> initialState = new ArrayList<>();
 
         for (Piece p : pieces) {
-            initialState.add(new Pair<>(p, null));
+            initialState.add(new Pair<Piece, Position>(p, null));
         }
 
         Collections.sort(initialState, new Comparator<Pair<Piece, Position>>() {
